@@ -11,7 +11,7 @@ function Task({ task, index, completeTask, removeTask }) {
             {task.title}
 
             <button style={{ background: "red" }} onClick={() => removeTask(index)}>x</button>
-            <button onClick={() => completeTask(index)}>Complete</button>
+            {!task.completed && <button onClick={() => completeTask(index)}>Complete</button>}
 
         </div>
     );
@@ -43,20 +43,20 @@ function Todo() {
     const [tasksRemaining, setTasksRemaining] = useState(0);
     const [tasks, setTasks] = useState([
         {
-            title: "Grab some Pizza",
+            title: "Заказать пиццу",
             completed: true
         },
         {
-            title: "Do your workout",
-            completed: true
+            title: "Сделать диплом",
+            completed: false
         },
         {
-            title: "Hangout with friends",
+            title: "Отдохнуть",
             completed: false
         }
     ]);
 
-    useEffect(() => { setTasksRemaining(tasks.filter(task => !task.completed).length) });
+    useEffect(() => { setTasksRemaining(tasks.filter(task => !task.completed).length) }, [tasks]);
 
 
     const addTask = title => {
@@ -78,7 +78,7 @@ function Todo() {
 
     return (
         <div className="todo-container">
-            <div className="header">Pending tasks ({tasksRemaining})</div>
+            <div className="header">Задачи ({tasksRemaining})</div>
             <div className="tasks">
                 {tasks.map((task, index) => (
                     <Task
